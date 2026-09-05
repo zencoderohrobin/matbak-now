@@ -119,7 +119,7 @@ footer a{color:var(--sub)}</style></head><body>
     <div class="gapband" id="r-band"></div>
   </div>
   <div class="typebox">
-    <div class="typelabel">당신의 유형</div>
+    <div class="typelabel">지금 가장 낮은 축</div>
     <div class="typename" id="r-type"></div>
     <div class="typedesc" id="r-desc"></div>
   </div>
@@ -128,7 +128,7 @@ footer a{color:var(--sub)}</style></head><body>
     <h3>여기서부터는 편지로 보내드립니다</h3>
     <ul>
       <li>네 축의 자세한 해설</li>
-      <li>당신의 유형에게 드리는 오늘의 질문</li>
+      <li>지금 가장 낮은 축에 드리는 오늘의 질문</li>
       <li>2분 실천 한 가지</li>
       <li>이어서, 7일간 하루 하나씩 도착하는 질문</li>
     </ul>
@@ -181,7 +181,7 @@ const TYPES={
  sense:{n:"끌려가는 사람",d:"감각의 주인이 아니라 손님입니다. 알림이 부르면 갑니다. — 매트 위에서는 호흡에 맞춰 움직이시죠. 그 순간 감각의 주인이십니다. 매트 밖에서 그 스위치를 안 켜고 계실 뿐입니다."},
  focus:{n:"흩어지는 사람",d:"몸은 여기 있는데 마음은 늘 다음 칸에 가 있습니다. 하루가 장면으로 남지 않습니다. — 매트 위에서는 한 자세에 머무르십니다. 그 머무름을 이미 아십니다."}
 };
-const BANDS=[[9,"매트 위와 밖이 거의 같은 사람입니다.<br>드뭅니다."],[24,"문을 나서면서<br>조금씩 흘리고 있습니다."],[39,"매트 위의 나와 사무실의 나는,<br>정말 같은 사람일까."],[999,"지금은 매트 위에서만<br>수련자인 상태입니다."]];
+const gapBand=(gap,est,tot)=>{if(gap===0)return '매트 위와 밖이 같은 점수로 나왔습니다.';const higher=tot>est?'매트 밖':'매트 위';return higher+' 점수가 '+gap+'점 더 높게 나왔습니다.';};
 const SIT=[
  ["k_now","지금 수련은 어떤 상태인가요?",["매일 한다","주 2~3회","마음만 있고 몸이 안 간다","몇 달 쉬고 있다","가르치는 쪽이다"]],
  ["k_goal","어떤 상태이길 바라나요?",["화를 덜 내고 싶다","남의 시선에서 자유롭고 싶다","미루지 않고 싶다","관계에서 덜 소모되고 싶다","나를 덜 몰아붙이고 싶다"]],
@@ -206,16 +206,20 @@ function score(){
  const tot=Math.round((raw.reduce((x,y)=>x+y,0)-12)/48*100);
  return {ax,tot};
 }
+function lowAxis(ax){
+ const order=Object.keys(AX);
+ let low=order[0];order.forEach(a=>{if(ax[a]<ax[low])low=a;});
+ return low;
+}
 function finish(){
  if(!window.__touched){$('esthint').textContent='슬라이더를 직접 움직여주세요';$('esthint').style.color='#b98b6a';return;}
- const s=score(), est=+$('est').value, gap=Math.max(0,est-s.tot);
- const order=['rel','sense','focus','self'];
- let low=order[0];order.forEach(a=>{if(s.ax[a]<s.ax[low])low=a;});
+ const s=score(), est=+$('est').value, gap=Math.abs(est-s.tot);
+ const low=lowAxis(s.ax);
  R={ax:s.ax,tot:s.tot,est:est,gap:gap,type:low};
  try{localStorage.setItem('matbak_now',JSON.stringify(R));}catch(e){}
  $('r-gap').textContent=gap;$('r-in').textContent=est;$('r-out').textContent=s.tot;
- $('r-band').innerHTML=BANDS.find(b=>gap<=b[0])[1];
- $('r-type').textContent=TYPES[low].n;$('r-desc').textContent=TYPES[low].d;
+ $('r-band').textContent=gapBand(gap,est,s.tot);
+ $('r-type').textContent=TYPES[low].n;$('r-desc').textContent='네 축 중 가장 낮게 나온 항목을 기준으로 드리는 이름입니다. '+TYPES[low].d;
  $('r-bars').innerHTML=Object.keys(AX).map(a=>'<div class="bar"><div class="barhead"><span>'+AX[a]+'</span><span>'+s.ax[a]+'</span></div><div class="track"><div class="fill'+(a===low?' low':'')+'" style="width:'+Math.max(s.ax[a],2)+'%"></div></div></div>').join('');
  $('sit').innerHTML=SIT.map(g=>'<div class="sitq">'+g[1]+'</div><div class="chips" data-k="'+g[0]+'">'+g[2].map(o=>'<button class="chip" onclick="pickSit(this,\''+g[0]+'\',\''+o.replace(/'/g,"\\'")+'\')">'+o+'</button>').join('')+'</div>').join('');
  show('s-result');

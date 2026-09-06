@@ -11,8 +11,8 @@ const gap = (inside, outside) => Math.abs(inside - outside);
 assert.equal(gap(50, 71), 21, '사진의 50점·71점 결과는 21점 간극이어야 한다');
 assert.equal(gap(71, 50), 21, '방향이 반대여도 간극은 21점이어야 한다');
 assert.equal(gap(50, 50), 0, '같은 점수일 때만 간극은 0이다');
-assert.equal(api.gapBand(21, 50, 71), '매트 밖 점수가 21점 더 높게 나왔습니다.');
-assert.equal(api.gapBand(21, 71, 50), '매트 위 점수가 21점 더 높게 나왔습니다.');
+assert.equal(api.gapBand(21, 50, 71), '일상 응답 점수가 21점 더 높게 나왔습니다.');
+assert.equal(api.gapBand(21, 71, 50), '수련 중 추정 점수가 21점 더 높게 나왔습니다.');
 
 const raw = [4,4,3, 4,4,4, 3,3,4, 4,4,5];
 const photoAnswers = raw.map((value, index) => api.Q[index].r ? 6 - value : value);

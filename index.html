@@ -2,8 +2,8 @@
 <html lang="ko"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>매트 밖 알아차림 진단</title>
-<meta name="description" content="매트 위의 나와 매트 밖의 나는 얼마나 떨어져 있을까. 12개의 질문으로 그 거리를 재봅니다.">
-<meta property="og:title" content="매트 밖 알아차림 진단"><meta property="og:description" content="매트 위의 나와 매트 밖의 나는 얼마나 떨어져 있을까. 12개의 질문으로 그 거리를 재봅니다.">
+<meta name="description" content="12개 자기보고 질문으로 일상의 알아차림을 돌아봅니다. 이메일 없이 요약을 볼 수 있습니다.">
+<meta property="og:title" content="매트 밖 알아차림 진단"><meta property="og:description" content="12개 자기보고 질문으로 일상의 알아차림을 돌아봅니다. 이메일 없이 요약을 볼 수 있습니다.">
 <meta property="og:type" content="website"><meta property="og:locale" content="ko_KR">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
@@ -75,16 +75,21 @@ h2.sec{font-size:19px;font-weight:400;margin:38px 0 14px;letter-spacing:-.01em}
 .qcard .lab{font-size:11.5px;color:var(--olive);letter-spacing:.16em;margin-bottom:10px}
 .qcard .q{font-size:19px;line-height:1.7}
 footer{border-top:1px solid var(--line);margin-top:44px;padding-top:22px;font-size:12.5px;color:var(--sub);line-height:2}
-footer a{color:var(--sub)}</style></head><body>
+footer a{color:var(--sub)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
+[role=alert]{color:#8d4c2f;margin-bottom:12px}
+.screen:focus{outline:none}</style></head><body>
 <iframe name="kitsink" style="display:none" title="kit"></iframe>
 <div class="wrap">
 
 <section class="screen on" id="s-intro">
   <div class="hair"></div>
-  <h1>매트 위의 나와<br>매트 밖의 나는<br><em>얼마나 떨어져 있을까</em></h1>
-  <p class="lead">매트 위에서는 분명 고요했는데, 문을 나서는 순간 그 고요가 어디로 갔는지 알 수 없습니다.</p>
-  <p class="lead">열두 개의 질문으로 그 거리를 재봅니다. 잘 대답하기 위한 질문이 아니라, 지금의 나를 알아차리기 위한 질문입니다.</p>
-  <div style="margin-top:36px"><button class="btn" onclick="start()">진단 시작하기</button></div>
+  <h1>요즘 일상에서<br><em>무엇을 알아차리고 있나요?</em></h1>
+  <p class="lead">12개 자기보고 질문에 답하며 관계·자기·감각·집중을 돌아봅니다. 수련 중의 나를 떠올려 점수를 추정하는 단계는 선택입니다. 수련 경험이 없어도 참여할 수 있습니다.</p>
+  <p class="lead">요약 결과는 이메일 없이 바로 봅니다. 자세한 해설과 7일간의 질문 편지는 원할 때만 신청하세요.</p>
+  <p class="fine">자기 성찰을 돕는 질문지로, 임상 진단이나 검증된 측정 도구가 아닙니다. 정답은 없습니다. 질문에 적힌 시점(오늘·최근 일주일 등)을 따르고, 별도 시점이 없거나 ‘최근’이라고만 하면 최근 일주일을 떠올려주세요.</p>
+  <div style="margin-top:36px"><button class="btn" onclick="start()">12문항 시작하기</button></div>
   <div class="meta">무료 · 약 3분 · 12문항</div>
 </section>
 
@@ -92,62 +97,77 @@ footer a{color:var(--sub)}</style></head><body>
   <div class="prog" id="prog"></div>
   <div class="qnum" id="qnum"></div>
   <div class="qtext" id="qtext"></div>
-  <div class="opts" id="opts"></div>
+  <p class="fine" style="margin:0 0 18px">문항에 적힌 시점을 기준으로 답해주세요. 별도 시점이 없으면 최근 일주일입니다. 확신이 없으면 가장 가까운 답을 고르거나 이전으로 돌아가 생각해도 됩니다. ‘반반’은 ‘모르겠다’와 다릅니다. 원래 채점식을 유지하기 위해 12문항 모두 답한 뒤 요약을 보여드립니다.</p>
+  <div class="opts" id="opts" role="group" aria-label="답변 하나 선택"></div>
+  <button class="btn" id="nextbtn" style="margin-top:22px" onclick="next()" disabled>다음</button>
   <button class="back" id="backbtn" onclick="back()">← 이전</button>
 </section>
 
 <section class="screen" id="s-est">
-  <div class="qnum">마지막 질문</div>
-  <div class="qtext" style="min-height:auto">지금의 열두 질문을,<br><em>수련 중인 나</em>에게 똑같이 물었다면<br>몇 점이 나왔을까요?</div>
+  <div class="qnum">선택 단계 · 수련 중의 나</div>
+  <div class="qtext" style="min-height:auto">최근 수련 중에는<br>얼마나 알아차리고 있었나요?</div>
+  <p class="lead" id="scalehelp">0은 거의 알아차리지 못한 느낌, 50은 중간, 100은 매우 잘 알아차린 느낌입니다. 수련 중의 전반적인 느낌을 고르는 주관적 추정이며, 앞선 12문항을 다시 측정하는 것이 아닙니다.</p>
   <div class="slidebox">
-    <div class="big"><span id="estval">—</span></div>
-    <input type="range" min="0" max="100" value="50" id="est" aria-label="매트 위 점수 추정">
-    <div class="ends"><span>0 · 매트 위에서도 흩어진다</span><span>100 · 완전히 깨어 있다</span></div>
+    <label for="est">수련 중 알아차림 추정 (0~100)</label>
+    <div class="big"><span id="estval">선택 전</span></div>
+    <input type="range" min="0" max="100" value="50" id="est" aria-describedby="scalehelp esthint">
+    <div class="ends"><span>0 · 거의 알아차리지 못함</span><span>100 · 매우 잘 알아차림</span></div>
   </div>
-  <div style="margin-top:34px"><button class="btn" onclick="finish()">결과 보기</button></div>
-  <div class="meta" id="esthint">슬라이더를 직접 움직여주세요</div>
+  <button class="opt" onclick="confirmEstimate()">현재 눈금으로 선택 (처음에는 50)</button>
+  <div class="meta" id="esthint" role="status">슬라이더를 움직이거나 현재 눈금으로 선택하세요. 건너뛰어도 됩니다.</div>
+  <div style="margin-top:24px"><button class="btn" onclick="finish()">선택한 추정으로 결과 보기</button></div>
+  <button class="opt" style="margin-top:12px" onclick="finish(true)">추정 없이 결과 보기 · 경험 없음 / 잘 모르겠음</button>
+  <button class="back" onclick="backFromEstimate()">← 12번 질문으로</button>
 </section>
 
 <section class="screen" id="s-result">
   <div class="gapwrap">
     <div class="gapnum" id="r-gap">—</div>
-    <div class="gaplabel">매트 안팎의 간극</div>
+    <div class="gaplabel">두 방식의 점수 차이</div>
     <div class="twoscore">
-      <div>매트 위 (추정)<b id="r-in">—</b></div>
-      <div>매트 밖 (실측)<b id="r-out">—</b></div>
+      <div>수련 중 (추정)<b id="r-in">—</b></div>
+      <div>일상 (응답 점수)<b id="r-out">—</b></div>
     </div>
     <div class="gapband" id="r-band"></div>
+    <p class="fine">응답 점수는 12문항을 0~100으로 환산한 값입니다. 높을수록 이 질문지에서 알아차림 쪽으로 답했다는 뜻이지 능력이나 건강의 등급은 아닙니다. 수련 중 추정과는 질문 방식이 달라, 차이를 실제 변화나 수련 효과로 해석할 수 없습니다.</p>
   </div>
   <div class="typebox">
-    <div class="typelabel">지금 가장 낮은 축</div>
+    <div class="typelabel">이번 응답에서 살펴볼 축</div>
     <div class="typename" id="r-type"></div>
     <div class="typedesc" id="r-desc"></div>
   </div>
   <div class="bars" id="r-bars"></div>
   <div class="locked">
-    <h3>여기서부터는 편지로 보내드립니다</h3>
+    <h3>선택 · 자세한 해설과 7일 질문 편지</h3>
     <ul>
       <li>네 축의 자세한 해설</li>
-      <li>지금 가장 낮은 축에 드리는 오늘의 질문</li>
+      <li>한 축을 돌아보는 오늘의 질문</li>
       <li>2분 실천 한 가지</li>
       <li>이어서, 7일간 하루 하나씩 도착하는 질문</li>
     </ul>
   </div>
   <div style="margin-bottom:26px">
-    <div class="qtext" style="font-size:17px;min-height:auto;margin-bottom:18px">받기 전에, 세 가지만 여쭤도 될까요?</div>
+    <div class="qtext" style="font-size:17px;min-height:auto;margin-bottom:18px">편지를 원한다면 상황을 알려주세요 (모두 선택)</div>
     <div id="sit"></div>
   </div>
-  <input type="email" id="mail" placeholder="이메일 주소" autocomplete="email" inputmode="email">
+  <label for="mail">이메일 주소 (편지 신청 시 필요)</label>
+  <input type="email" id="mail" placeholder="name@example.com" autocomplete="email" inputmode="email" aria-describedby="mailerror">
+  <p id="mailerror" role="alert" class="fine"></p>
+  <label class="fine" style="display:block;margin-bottom:14px"><input type="checkbox" id="consent" aria-describedby="consenterror"> 입력한 이메일과 선택한 상황·결과를 편지 발송에 사용하고, 결과 해설과 7일간의 질문 이메일을 받는 데 동의합니다. (선택)</label>
+  <p id="consenterror" role="alert" class="fine"></p>
   <button class="btn" style="width:100%" id="submitbtn" onclick="submitMail()">결과를 편지로 받고, 7일의 질문 시작하기</button>
-  <div class="fine">보내드리는 것 외에 다른 용도로 쓰지 않습니다. 언제든 한 번의 클릭으로 그만 받을 수 있습니다.</div>
+  <div class="fine">신청하지 않아도 위 요약은 그대로 볼 수 있습니다. 신청하면 이메일 발송 서비스 Kit로 전송됩니다. 편지의 수신 거부 링크로 그만 받을 수 있습니다.</div>
+  <button class="back" onclick="backToEstimate()">← 추정 선택 수정</button>
+  <button class="back" onclick="start()">처음부터 다시 답하기</button>
 </section>
 
 <section class="screen" id="s-done">
   <div class="done-msg">
     <div class="hair" style="margin:0 auto 30px"></div>
-    <h1 style="font-size:23px">받은편지함을<br>확인해주세요</h1>
-    <p class="lead">보내드린 메일에서 <em>결과 전문 보기</em>를 누르면<br>해설이 열립니다.</p>
-    <div class="meta">보낸사람 · 오로빈 &lt;ohrobin@matbak.kr&gt;<br>메일이 없으면 프로모션함·스팸함을 확인해주세요</div>
+    <h1 style="font-size:23px">신청 요청을 보냈습니다</h1>
+    <p class="lead">이 화면에서는 외부 서비스의 접수·발송 여부를 확인할 수 없습니다. 메일이 도착했다는 뜻은 아닙니다.</p>
+    <div class="meta">보낸사람 · 오로빈 &lt;ohrobin@matbak.kr&gt;<br>메일이 없으면 잠시 후 프로모션함·스팸함도 확인해주세요.<br>계속 오지 않으면 요약으로 돌아가 주소와 동의를 확인한 뒤 재시도할 수 있습니다.<br>이미 접수됐다면 같은 요청이 다시 전달될 수 있습니다.</div>
+    <button class="back" onclick="returnToResult()">← 요약으로 돌아가기 / 주소 확인</button>
   </div>
 </section>
 
@@ -176,30 +196,37 @@ const Q=[
 ];
 const OPT=["전혀 아니다","그렇지 않은 편","반반","그런 편","매우 그렇다"];
 const TYPES={
- rel:{n:"괜찮다고 말하는 사람",d:"남에게는 하지 않을 말을 자신에게 합니다. 그리고 괜찮지 않은 날에도 괜찮다고 말하고 돌아섭니다. — 매트 위에서는 무릎이 아프면 멈추시죠. 몸이 ‘여기까지’라고 하면 더 밀지 않으시고요. 그게 아힘사입니다. 이미 할 줄 아십니다."},
- self:{n:"비교하다 돌아오는 사람",d:"남의 화면 하나가 내 하루의 온도를 정합니다. 불편함이 올라오면 일단 덮습니다. — 매트 위에서는 옆 사람이 풀 스플릿에 들어가도 따라 하지 않으시죠. 내 몸이 아니니까요. 그 기준을 이미 갖고 계십니다."},
- sense:{n:"끌려가는 사람",d:"감각의 주인이 아니라 손님입니다. 알림이 부르면 갑니다. — 매트 위에서는 호흡에 맞춰 움직이시죠. 그 순간 감각의 주인이십니다. 매트 밖에서 그 스위치를 안 켜고 계실 뿐입니다."},
- focus:{n:"흩어지는 사람",d:"몸은 여기 있는데 마음은 늘 다음 칸에 가 있습니다. 하루가 장면으로 남지 않습니다. — 매트 위에서는 한 자세에 머무르십니다. 그 머무름을 이미 아십니다."}
+ rel:{n:"괜찮다고 말하는 사람",d:"자신에게 하는 말, 괜찮다는 대답, 부탁을 받아들이는 상황에 관한 세 답변을 묶은 축입니다."},
+ self:{n:"비교하다 돌아오는 사람",d:"남의 소식에 따른 만족도, 불편한 감정을 덮는 행동, 반응을 돌아본 경험에 관한 세 답변을 묶은 축입니다."},
+ sense:{n:"끌려가는 사람",d:"일상의 호흡, 알림에 반응하는 행동, 몸에서 감정을 알아차리는 경험에 관한 세 답변을 묶은 축입니다."},
+ focus:{n:"흩어지는 사람",d:"식사 중 화면 보기, 대화를 듣는 방식, 하루를 장면으로 떠올리는 경험에 관한 세 답변을 묶은 축입니다."}
 };
-const gapBand=(gap,est,tot)=>{if(gap===0)return '매트 위와 밖이 같은 점수로 나왔습니다.';const higher=tot>est?'매트 밖':'매트 위';return higher+' 점수가 '+gap+'점 더 높게 나왔습니다.';};
+const gapBand=(gap,est,tot)=>{if(gap===0)return '수련 중 추정과 일상 응답 점수가 같게 나왔습니다.';const higher=tot>est?'일상 응답':'수련 중 추정';return higher+' 점수가 '+gap+'점 더 높게 나왔습니다.';};
 const SIT=[
  ["k_now","지금 수련은 어떤 상태인가요?",["매일 한다","주 2~3회","마음만 있고 몸이 안 간다","몇 달 쉬고 있다","가르치는 쪽이다"]],
  ["k_goal","어떤 상태이길 바라나요?",["화를 덜 내고 싶다","남의 시선에서 자유롭고 싶다","미루지 않고 싶다","관계에서 덜 소모되고 싶다","나를 덜 몰아붙이고 싶다"]],
  ["k_block","무엇이 가장 막고 있나요?",["시간","방법을 모른다","혼자라 흐지부지된다","알지만 안 된다","시작을 못 한다"]]
 ];
-let i=0, ans=[], R=null, sit={};
+let i=0, ans=[], R=null, sit={}, estimateSelected=false, submitting=false;
 const $=id=>document.getElementById(id);
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo(0,0);}
-function start(){i=0;ans=[];show('s-q');render();}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');$(id).setAttribute('tabindex','-1');$(id).focus();window.scrollTo(0,0);}
+function resetMail(){submitting=false;$('submitbtn').disabled=false;$('submitbtn').textContent='결과를 편지로 받고, 7일의 질문 시작하기';$('mailerror').textContent='';$('consenterror').textContent='';$('mail').removeAttribute('aria-invalid');}
+function start(){i=0;ans=[];R=null;sit={};estimateSelected=false;$('est').value='50';$('estval').textContent='선택 전';$('esthint').textContent='슬라이더를 움직이거나 현재 눈금으로 선택하세요. 건너뛰어도 됩니다.';$('esthint').style.color='';$('mail').value='';$('consent').checked=false;resetMail();try{localStorage.removeItem('matbak_now');}catch(e){}show('s-q');render();}
 function render(){
  $('prog').innerHTML=Q.map((_,k)=>'<i class="'+(k<i?'done':'')+'"></i>').join('');
  $('qnum').textContent='질문 '+(i+1)+' / 12 · '+AX[Q[i].ax].split(' · ')[0];
  $('qtext').innerHTML=Q[i].t;
- $('opts').innerHTML=OPT.map((o,k)=>'<button class="opt'+(ans[i]===k+1?' sel':'')+'" onclick="pick('+(k+1)+')">'+o+'</button>').join('');
+ $('opts').innerHTML=OPT.map((o,k)=>'<button class="opt'+(ans[i]===k+1?' sel':'')+'" aria-pressed="'+(ans[i]===k+1)+'" onclick="pick('+(k+1)+')">'+o+'</button>').join('');
  $('backbtn').style.visibility=i?'visible':'hidden';
+ $('nextbtn').disabled=!Number.isInteger(ans[i]);$('nextbtn').textContent=i===11?'다음 · 선택 추정':'다음';
 }
-function pick(v){ans[i]=v;i++;if(i<12)render();else show('s-est');}
-function back(){if(i>0){i--;render();}}
+function pick(v){if(!Number.isInteger(v)||v<1||v>5)return;ans[i]=v;$('opts').querySelectorAll('.opt').forEach((b,k)=>{if(k+1===v)b.classList.add('sel');else b.classList.remove('sel');b.setAttribute('aria-pressed',String(k+1===v));});$('nextbtn').disabled=false;}
+function focusQuestion(){$('qtext').setAttribute('tabindex','-1');$('qtext').focus();}
+function next(){if(!Number.isInteger(ans[i]))return;if(i<11){i++;render();focusQuestion();}else show('s-est');}
+function backFromEstimate(){i=11;show('s-q');render();}
+function backToEstimate(){show('s-est');}
+function confirmEstimate(){estimateSelected=true;$('estval').textContent=$('est').value;$('esthint').textContent=$('est').value+'점 선택됨';$('esthint').style.color='';}
+function back(){if(i>0){i--;render();focusQuestion();}}
 function score(){
  const raw=ans.map((v,k)=>Q[k].r?6-v:v);
  const ax={};Object.keys(AX).forEach(a=>{const s=raw.filter((_,k)=>Q[k].ax===a).reduce((x,y)=>x+y,0);ax[a]=Math.round((s-3)/12*100);});
@@ -211,31 +238,42 @@ function lowAxis(ax){
  let low=order[0];order.forEach(a=>{if(ax[a]<ax[low])low=a;});
  return low;
 }
-function finish(){
- if(!window.__touched){$('esthint').textContent='슬라이더를 직접 움직여주세요';$('esthint').style.color='#b98b6a';return;}
- const s=score(), est=+$('est').value, gap=Math.abs(est-s.tot);
- const low=lowAxis(s.ax);
- R={ax:s.ax,tot:s.tot,est:est,gap:gap,type:low};
+function finish(skip=false){
+ if(ans.length!==12||!ans.every(v=>Number.isInteger(v)&&v>=1&&v<=5))return;
+ if(!skip&&!estimateSelected){$('esthint').textContent='현재 눈금으로 선택하거나 추정 없이 결과 보기를 눌러주세요';return;}
+ const s=score(), est=skip?null:+$('est').value;
+ if(est!==null&&(!Number.isFinite(est)||est<0||est>100))return;
+ let gap=null;if(est!==null){gap = Math.abs(est - s.tot);}
+ const low=lowAxis(s.ax), lows=Object.keys(AX).filter(a=>s.ax[a]===s.ax[low]);
+ // type keeps the legacy deterministic email route. The screen discloses ties.
+ R={ax:s.ax,tot:s.tot,est,gap,type:low,lows};
  try{localStorage.setItem('matbak_now',JSON.stringify(R));}catch(e){}
- $('r-gap').textContent=gap;$('r-in').textContent=est;$('r-out').textContent=s.tot;
- $('r-band').textContent=gapBand(gap,est,s.tot);
- $('r-type').textContent=TYPES[low].n;$('r-desc').textContent='네 축 중 가장 낮게 나온 항목을 기준으로 드리는 이름입니다. '+TYPES[low].d;
- $('r-bars').innerHTML=Object.keys(AX).map(a=>'<div class="bar"><div class="barhead"><span>'+AX[a]+'</span><span>'+s.ax[a]+'</span></div><div class="track"><div class="fill'+(a===low?' low':'')+'" style="width:'+Math.max(s.ax[a],2)+'%"></div></div></div>').join('');
- $('sit').innerHTML=SIT.map(g=>'<div class="sitq">'+g[1]+'</div><div class="chips" data-k="'+g[0]+'">'+g[2].map(o=>'<button class="chip" onclick="pickSit(this,\''+g[0]+'\',\''+o.replace(/'/g,"\\'")+'\')">'+o+'</button>').join('')+'</div>').join('');
- show('s-result');
+ $('r-gap').style.fontSize=gap===null?'30px':'';
+ $('r-gap').textContent=gap===null?'비교 안 함':gap;$('r-in').textContent=est===null?'선택 안 함':est;$('r-out').textContent=s.tot;
+ $('r-band').textContent=est===null?'수련 중 추정 없이 일상 응답만 정리했습니다.':gapBand(gap,est,s.tot)+' 서로 다른 방식으로 나온 숫자의 비교입니다.';
+ $('r-type').textContent=lows.length===4?'네 축이 같은 점수입니다':lows.map(a=>AX[a].split(' · ')[0]).join(' · ')+(lows.length>1?' · 공동 최저 응답 점수':' · 가장 낮은 응답 점수');
+ $('r-desc').textContent=lows.length===4?'이번 응답에서는 특정 축이 더 낮지 않습니다. 점수가 같다는 것만으로 균형이나 상태를 판단할 수는 없습니다.':lows.map(a=>TYPES[a].d).join(' ')+' 다른 축보다 낮게 환산됐다는 뜻이며 성격이나 결함을 진단한 결과는 아닙니다.';
+ if(lows.length>1)$('r-desc').textContent+=' 편지를 신청하면 기존 발송 방식에 따라 '+AX[low].split(' · ')[0]+' 축의 질문이 먼저 안내됩니다. 동점 중 더 중요하다는 뜻은 아닙니다.';
+ $('r-bars').innerHTML=Object.keys(AX).map(a=>'<div class="bar"><div class="barhead"><span>'+AX[a]+'</span><span>'+s.ax[a]+'</span></div><div class="track"><div class="fill'+(lows.length<4&&lows.includes(a)?' low':'')+'" style="width:'+s.ax[a]+'%"></div></div></div>').join('');
+ $('sit').innerHTML=SIT.map(g=>'<div class="sitq">'+g[1]+' (선택 · 하나만, 다시 누르면 해제)</div><div class="chips" role="group" aria-label="'+g[1]+'" data-k="'+g[0]+'">'+g[2].map(o=>'<button class="chip'+(sit[g[0]]===o?' sel':'')+'" aria-pressed="'+(sit[g[0]]===o)+'" onclick="pickSit(this,\''+g[0]+'\',\''+o+'\')">'+o+'</button>').join('')+'</div>').join('');
+ resetMail();show('s-result');
 }
-function pickSit(el,k,v){el.parentNode.querySelectorAll('.chip').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');sit[k]=v;}
+function pickSit(el,k,v){const selected=sit[k]===v;el.parentNode.querySelectorAll('.chip').forEach(b=>{b.classList.remove('sel');b.setAttribute('aria-pressed','false');});if(selected){delete sit[k];}else{el.classList.add('sel');el.setAttribute('aria-pressed','true');sit[k]=v;}}
+function returnToResult(){resetMail();show('s-result');}
 function param(n){try{return new URLSearchParams(location.search).get(n)||'';}catch(e){return '';}}
 function submitMail(){
+ if(!R||submitting)return;
+ resetMail();
  const em=$('mail').value.trim();
- if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){$('mail').style.borderColor='#b98b6a';$('mail').focus();return;}
+ if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){$('mailerror').textContent='받을 수 있는 이메일 주소를 확인해주세요.';$('mail').setAttribute('aria-invalid','true');$('mail').focus();return;}
+ if(!$('consent').checked){$('consenterror').textContent='편지 신청에는 결과 해설과 7일 질문 이메일 수신 동의가 필요합니다. 원하지 않으면 신청하지 않아도 됩니다.';$('consent').focus();return;}
  const f=document.createElement('form');
  f.method='POST';f.action='https://app.kit.com/forms/'+FORMS[R.type]+'/subscriptions';f.target='kitsink';f.style.display='none';
  const add=(n,v)=>{const x=document.createElement('input');x.type='hidden';x.name=n;x.value=v;f.appendChild(x);};
  add('email_address',em);
  add('fields[type]',TYPES[R.type].n);
- add('fields[gap]',String(R.gap));
- add('fields[inside]',String(R.est));
+ add('fields[gap]',R.gap===null?'':String(R.gap));
+ add('fields[inside]',R.est===null?'':String(R.est));
  add('fields[outside]',String(R.tot));
  add('fields[rel]',String(R.ax.rel));
  add('fields[self]',String(R.ax.self));
@@ -246,11 +284,10 @@ function submitMail(){
  add('fields[block]',sit.k_block||'');
  add('fields[source]',param('s')||document.referrer.replace(/^https?:\/\//,'').split('/')[0]||'direct');
  document.body.appendChild(f);
- $('submitbtn').disabled=true;$('submitbtn').textContent='보내는 중…';
- f.submit();
- setTimeout(()=>show('s-done'),1200);
+ submitting=true;$('submitbtn').disabled=true;$('submitbtn').textContent='요청 전달 중…';
+ try{f.submit();show('s-done');}catch(e){resetMail();$('mailerror').textContent='요청을 보내지 못했습니다. 연결과 주소를 확인한 뒤 다시 시도해주세요.';}
 }
 window.addEventListener('DOMContentLoaded',()=>{
- $('est').addEventListener('input',function(){$('estval').textContent=this.value;window.__touched=true;});
+ $('est').addEventListener('input',confirmEstimate);
 });
 </script></body></html>

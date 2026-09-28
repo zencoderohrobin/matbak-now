@@ -17,7 +17,7 @@ h1{font-size:27px;font-weight:400;line-height:1.55;letter-spacing:-.02em;margin-
 em{font-style:normal;border-bottom:1px solid var(--olive);padding-bottom:1px}
 p.lead{font-size:15.5px;color:var(--sub);line-height:2;margin-bottom:14px}
 .hair{width:44px;height:1px;background:var(--olive);margin:0 0 30px}
-.btn{display:inline-block;background:var(--ink);color:var(--bg);border:0;font-family:inherit;font-size:15px;font-weight:400;padding:15px 34px;border-radius:2px;cursor:pointer;letter-spacing:.01em}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);border:0;font-family:inherit;font-size:15px;font-weight:400;padding:15px 34px;border-radius:2px;cursor:pointer;letter-spacing:.01em;text-decoration:none}
 .btn:hover{background:#000}
 .meta{font-size:12.5px;color:var(--sub);letter-spacing:.06em;margin-top:22px}
 .prog{display:flex;gap:4px;margin-bottom:40px}
@@ -57,16 +57,8 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border:0;border-radiu
 .fill.low{background:var(--warm)}
 .locked{border:1px dashed var(--line);padding:24px 22px;margin-bottom:26px;text-align:center}
 .locked h3{font-size:16px;font-weight:400;margin-bottom:14px}
-.locked ul{list-style:none;font-size:14px;color:var(--sub);line-height:2.1;text-align:left;max-width:320px;margin:0 auto}
-.locked li:before{content:"\00b7";margin-right:9px;color:var(--olive)}
-input[type=email]{width:100%;font-family:inherit;font-size:16px;font-weight:300;padding:14px 16px;border:1px solid var(--line);border-radius:2px;background:#fff;color:var(--ink);margin-bottom:10px}
-input[type=email]:focus{outline:0;border-color:var(--olive)}
+.locked p{font-size:14px;color:var(--sub);line-height:1.9;margin-bottom:18px}
 .fine{font-size:12px;color:var(--sub);margin-top:14px;line-height:1.8}
-.sitq{font-size:14.5px;margin-bottom:10px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
-.chip{border:1px solid var(--line);background:transparent;border-radius:2px;padding:9px 13px;font-family:inherit;font-size:13.5px;font-weight:300;color:var(--ink);cursor:pointer}
-.chip.sel{border-color:var(--olive);background:rgba(107,143,113,.12)}
-.done-msg{text-align:center;padding:40px 0}
 h2.sec{font-size:19px;font-weight:400;margin:38px 0 14px;letter-spacing:-.01em}
 .axis{border-top:1px solid var(--line);padding:22px 0}
 .axis h3{font-size:16px;font-weight:400;margin-bottom:10px}
@@ -80,14 +72,13 @@ button:disabled{opacity:.45;cursor:default}
 button:focus-visible,input:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
 [role=alert]{color:#8d4c2f;margin-bottom:12px}
 .screen:focus{outline:none}</style></head><body>
-<iframe name="kitsink" style="display:none" title="kit"></iframe>
 <div class="wrap">
 
 <section class="screen on" id="s-intro">
   <div class="hair"></div>
   <h1>요즘 일상에서<br><em>무엇을 알아차리고 있나요?</em></h1>
   <p class="lead">12개 자기보고 질문에 답하며 관계·자기·감각·집중을 돌아봅니다. 수련 중의 나를 떠올려 점수를 추정하는 단계는 선택입니다. 수련 경험이 없어도 참여할 수 있습니다.</p>
-  <p class="lead">요약 결과는 이메일 없이 바로 봅니다. 자세한 해설과 7일간의 질문 편지는 원할 때만 신청하세요.</p>
+  <p class="lead">요약 결과와 자세한 해설은 이메일 없이 바로 볼 수 있습니다. 무료 7일 질문 편지는 중단했고, 새로운 알아차림 편지의 대기자를 받고 있어요.</p>
   <p class="fine">자기 성찰을 돕는 질문지로, 임상 진단이나 검증된 측정 도구가 아닙니다. 정답은 없습니다. 질문에 적힌 시점(오늘·최근 일주일 등)을 따르고, 별도 시점이 없거나 ‘최근’이라고만 하면 최근 일주일을 떠올려주세요.</p>
   <div style="margin-top:36px"><button class="btn" onclick="start()">12문항 시작하기</button></div>
   <div class="meta">무료 · 약 3분 · 12문항</div>
@@ -138,37 +129,17 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--olive);outline-
   </div>
   <div class="bars" id="r-bars"></div>
   <div class="locked">
-    <h3>선택 · 자세한 해설과 7일 질문 편지</h3>
-    <ul>
-      <li>네 축의 자세한 해설</li>
-      <li>한 축을 돌아보는 오늘의 질문</li>
-      <li>2분 실천 한 가지</li>
-      <li>이어서, 7일간 하루 하나씩 도착하는 질문</li>
-    </ul>
+    <h3>자세한 해설은 바로 볼 수 있어요</h3>
+    <p>네 축의 해설과 오늘의 질문, 2분 실천을 이메일 없이 읽어보세요.</p>
+    <a class="btn" id="detail-link" href="result.html">자세한 해설 보기</a>
   </div>
-  <div style="margin-bottom:26px">
-    <div class="qtext" style="font-size:17px;min-height:auto;margin-bottom:18px">편지를 원한다면 상황을 알려주세요 (모두 선택)</div>
-    <div id="sit"></div>
+  <div class="locked">
+    <h3>무료 7일 편지는 잠시 쉬어갑니다</h3>
+    <p>기존 무료 신청과 발송은 중단했습니다. 새로운 알아차림 편지의 공개 소식을 받으려면 스티비 대기자 명단에 신청해주세요. 대기자에게는 첫 월간 구독 결제 50% 할인 혜택을 드립니다. 대기 신청만으로 결제가 시작되지는 않습니다.</p>
+    <a class="btn" href="https://page.stibee.com/subscriptions/519833">대기자 명단에 신청하기</a>
   </div>
-  <label for="mail">이메일 주소 (편지 신청 시 필요)</label>
-  <input type="email" id="mail" placeholder="name@example.com" autocomplete="email" inputmode="email" aria-describedby="mailerror">
-  <p id="mailerror" role="alert" class="fine"></p>
-  <label class="fine" style="display:block;margin-bottom:14px"><input type="checkbox" id="consent" aria-describedby="consenterror"> 입력한 이메일과 선택한 상황·결과를 편지 발송에 사용하고, 결과 해설과 7일간의 질문 이메일을 받는 데 동의합니다. (선택)</label>
-  <p id="consenterror" role="alert" class="fine"></p>
-  <button class="btn" style="width:100%" id="submitbtn" onclick="submitMail()">결과를 편지로 받고, 7일의 질문 시작하기</button>
-  <div class="fine">신청하지 않아도 위 요약은 그대로 볼 수 있습니다. 신청하면 이메일 발송 서비스 Kit로 전송됩니다. 편지의 수신 거부 링크로 그만 받을 수 있습니다.</div>
   <button class="back" onclick="backToEstimate()">← 추정 선택 수정</button>
   <button class="back" onclick="start()">처음부터 다시 답하기</button>
-</section>
-
-<section class="screen" id="s-done">
-  <div class="done-msg">
-    <div class="hair" style="margin:0 auto 30px"></div>
-    <h1 style="font-size:23px">신청 요청을 보냈습니다</h1>
-    <p class="lead">이 화면에서는 외부 서비스의 접수·발송 여부를 확인할 수 없습니다. 메일이 도착했다는 뜻은 아닙니다.</p>
-    <div class="meta">보낸사람 · 오로빈 &lt;ohrobin@matbak.kr&gt;<br>메일이 없으면 잠시 후 프로모션함·스팸함도 확인해주세요.<br>계속 오지 않으면 요약으로 돌아가 주소와 동의를 확인한 뒤 재시도할 수 있습니다.<br>이미 접수됐다면 같은 요청이 다시 전달될 수 있습니다.</div>
-    <button class="back" onclick="returnToResult()">← 요약으로 돌아가기 / 주소 확인</button>
-  </div>
 </section>
 
 <footer>
@@ -177,7 +148,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--olive);outline-
 </footer>
 </div>
 <script>
-const FORMS={rel:'9864876',self:'9864903',sense:'9864911',focus:'9864913'};
 const AX={rel:"관계 · 세상과 나",self:"자기 · 나와 나",sense:"감각 · 감각의 주인",focus:"집중 · 지금 여기"};
 const U=(t)=>'<em>'+t+'</em>';
 const Q=[
@@ -202,16 +172,10 @@ const TYPES={
  focus:{n:"흩어지는 사람",d:"식사 중 화면 보기, 대화를 듣는 방식, 하루를 장면으로 떠올리는 경험에 관한 세 답변을 묶은 축입니다."}
 };
 const gapBand=(gap,est,tot)=>{if(gap===0)return '수련 중 추정과 일상 응답 점수가 같게 나왔습니다.';const higher=tot>est?'일상 응답':'수련 중 추정';return higher+' 점수가 '+gap+'점 더 높게 나왔습니다.';};
-const SIT=[
- ["k_now","지금 수련은 어떤 상태인가요?",["매일 한다","주 2~3회","마음만 있고 몸이 안 간다","몇 달 쉬고 있다","가르치는 쪽이다"]],
- ["k_goal","어떤 상태이길 바라나요?",["화를 덜 내고 싶다","남의 시선에서 자유롭고 싶다","미루지 않고 싶다","관계에서 덜 소모되고 싶다","나를 덜 몰아붙이고 싶다"]],
- ["k_block","무엇이 가장 막고 있나요?",["시간","방법을 모른다","혼자라 흐지부지된다","알지만 안 된다","시작을 못 한다"]]
-];
-let i=0, ans=[], R=null, sit={}, estimateSelected=false, submitting=false;
+let i=0, ans=[], R=null, estimateSelected=false;
 const $=id=>document.getElementById(id);
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');$(id).setAttribute('tabindex','-1');$(id).focus();window.scrollTo(0,0);}
-function resetMail(){submitting=false;$('submitbtn').disabled=false;$('submitbtn').textContent='결과를 편지로 받고, 7일의 질문 시작하기';$('mailerror').textContent='';$('consenterror').textContent='';$('mail').removeAttribute('aria-invalid');}
-function start(){i=0;ans=[];R=null;sit={};estimateSelected=false;$('est').value='50';$('estval').textContent='선택 전';$('esthint').textContent='슬라이더를 움직이거나 현재 눈금으로 선택하세요. 건너뛰어도 됩니다.';$('esthint').style.color='';$('mail').value='';$('consent').checked=false;resetMail();try{localStorage.removeItem('matbak_now');}catch(e){}show('s-q');render();}
+function start(){i=0;ans=[];R=null;estimateSelected=false;$('est').value='50';$('estval').textContent='선택 전';$('esthint').textContent='슬라이더를 움직이거나 현재 눈금으로 선택하세요. 건너뛰어도 됩니다.';$('esthint').style.color='';try{localStorage.removeItem('matbak_now');}catch(e){}show('s-q');render();}
 function render(){
  $('prog').innerHTML=Q.map((_,k)=>'<i class="'+(k<i?'done':'')+'"></i>').join('');
  $('qnum').textContent='질문 '+(i+1)+' / 12 · '+AX[Q[i].ax].split(' · ')[0];
@@ -245,7 +209,7 @@ function finish(skip=false){
  if(est!==null&&(!Number.isFinite(est)||est<0||est>100))return;
  let gap=null;if(est!==null){gap = Math.abs(est - s.tot);}
  const low=lowAxis(s.ax), lows=Object.keys(AX).filter(a=>s.ax[a]===s.ax[low]);
- // type keeps the legacy deterministic email route. The screen discloses ties.
+ // Keep the same tie-break route for the detailed result page.
  R={ax:s.ax,tot:s.tot,est,gap,type:low,lows};
  try{localStorage.setItem('matbak_now',JSON.stringify(R));}catch(e){}
  $('r-gap').style.fontSize=gap===null?'30px':'';
@@ -253,39 +217,10 @@ function finish(skip=false){
  $('r-band').textContent=est===null?'수련 중 추정 없이 일상 응답만 정리했습니다.':gapBand(gap,est,s.tot)+' 서로 다른 방식으로 나온 숫자의 비교입니다.';
  $('r-type').textContent=lows.length===4?'네 축이 같은 점수입니다':lows.map(a=>AX[a].split(' · ')[0]).join(' · ')+(lows.length>1?' · 공동 최저 응답 점수':' · 가장 낮은 응답 점수');
  $('r-desc').textContent=lows.length===4?'이번 응답에서는 특정 축이 더 낮지 않습니다. 점수가 같다는 것만으로 균형이나 상태를 판단할 수는 없습니다.':lows.map(a=>TYPES[a].d).join(' ')+' 다른 축보다 낮게 환산됐다는 뜻이며 성격이나 결함을 진단한 결과는 아닙니다.';
- if(lows.length>1)$('r-desc').textContent+=' 편지를 신청하면 기존 발송 방식에 따라 '+AX[low].split(' · ')[0]+' 축의 질문이 먼저 안내됩니다. 동점 중 더 중요하다는 뜻은 아닙니다.';
+ if(lows.length>1)$('r-desc').textContent+=' 자세한 해설 링크는 기존 순서에 따라 '+AX[low].split(' · ')[0]+' 축으로 연결됩니다. 동점 중 더 중요하다는 뜻은 아닙니다.';
  $('r-bars').innerHTML=Object.keys(AX).map(a=>'<div class="bar"><div class="barhead"><span>'+AX[a]+'</span><span>'+s.ax[a]+'</span></div><div class="track"><div class="fill'+(lows.length<4&&lows.includes(a)?' low':'')+'" style="width:'+s.ax[a]+'%"></div></div></div>').join('');
- $('sit').innerHTML=SIT.map(g=>'<div class="sitq">'+g[1]+' (선택 · 하나만, 다시 누르면 해제)</div><div class="chips" role="group" aria-label="'+g[1]+'" data-k="'+g[0]+'">'+g[2].map(o=>'<button class="chip'+(sit[g[0]]===o?' sel':'')+'" aria-pressed="'+(sit[g[0]]===o)+'" onclick="pickSit(this,\''+g[0]+'\',\''+o+'\')">'+o+'</button>').join('')+'</div>').join('');
- resetMail();show('s-result');
-}
-function pickSit(el,k,v){const selected=sit[k]===v;el.parentNode.querySelectorAll('.chip').forEach(b=>{b.classList.remove('sel');b.setAttribute('aria-pressed','false');});if(selected){delete sit[k];}else{el.classList.add('sel');el.setAttribute('aria-pressed','true');sit[k]=v;}}
-function returnToResult(){resetMail();show('s-result');}
-function param(n){try{return new URLSearchParams(location.search).get(n)||'';}catch(e){return '';}}
-function submitMail(){
- if(!R||submitting)return;
- resetMail();
- const em=$('mail').value.trim();
- if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){$('mailerror').textContent='받을 수 있는 이메일 주소를 확인해주세요.';$('mail').setAttribute('aria-invalid','true');$('mail').focus();return;}
- if(!$('consent').checked){$('consenterror').textContent='편지 신청에는 결과 해설과 7일 질문 이메일 수신 동의가 필요합니다. 원하지 않으면 신청하지 않아도 됩니다.';$('consent').focus();return;}
- const f=document.createElement('form');
- f.method='POST';f.action='https://app.kit.com/forms/'+FORMS[R.type]+'/subscriptions';f.target='kitsink';f.style.display='none';
- const add=(n,v)=>{const x=document.createElement('input');x.type='hidden';x.name=n;x.value=v;f.appendChild(x);};
- add('email_address',em);
- add('fields[type]',TYPES[R.type].n);
- add('fields[gap]',R.gap===null?'':String(R.gap));
- add('fields[inside]',R.est===null?'':String(R.est));
- add('fields[outside]',String(R.tot));
- add('fields[rel]',String(R.ax.rel));
- add('fields[self]',String(R.ax.self));
- add('fields[sense]',String(R.ax.sense));
- add('fields[focus]',String(R.ax.focus));
- add('fields[now]',sit.k_now||'');
- add('fields[goal]',sit.k_goal||'');
- add('fields[block]',sit.k_block||'');
- add('fields[source]',param('s')||document.referrer.replace(/^https?:\/\//,'').split('/')[0]||'direct');
- document.body.appendChild(f);
- submitting=true;$('submitbtn').disabled=true;$('submitbtn').textContent='요청 전달 중…';
- try{f.submit();show('s-done');}catch(e){resetMail();$('mailerror').textContent='요청을 보내지 못했습니다. 연결과 주소를 확인한 뒤 다시 시도해주세요.';}
+ $('detail-link').href='result.html?t='+encodeURIComponent(low);
+ show('s-result');
 }
 window.addEventListener('DOMContentLoaded',()=>{
  $('est').addEventListener('input',confirmEstimate);

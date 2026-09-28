@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const source = readFileSync('index.html', 'utf8');
 const script = source.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script, '진단 스크립트를 찾을 수 있어야 한다');
-const logic = script.slice(script.indexOf('const FORMS'), script.indexOf('function finish'));
+const logic = script.slice(script.indexOf('const AX'), script.indexOf('function finish'));
 const api = Function(`${logic}; return { Q, scoreFor: values => { ans = values; return score(); }, gapBand, lowAxis };`)();
 
 const gap = (inside, outside) => Math.abs(inside - outside);
